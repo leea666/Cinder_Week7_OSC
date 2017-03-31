@@ -51,8 +51,8 @@ class Week7_HostApp : public App {
     int             ball1Score ;
     int             ball2Score ;
     
-    bool            mTimeOut() ;
-    int             mTimeCount ;
+//    bool            mTimeOut() ;
+//    int             mTimeCount ;
 };
 
 void Week7_HostApp::setup()
@@ -71,7 +71,7 @@ void Week7_HostApp::setup()
     ball1Score = 0 ;
     ball2Score = 0 ;
     
-    host = "149.31.143.91" ;
+    host = "149.31.143.180" ;
     port = 5000 ;
     sender.setup( host, port, true );
 }
@@ -132,7 +132,7 @@ void Week7_HostApp::update()
         if( message.getNumArgs() != 0 && message.getArgType( 0 ) == osc::TYPE_FLOAT ) {
             posXBall1 = message.getArgAsFloat(0);
             posYBall1 = message.getArgAsFloat(1) ;
-            mTimeCount = message.getArgAsFloat(2) ;
+//            mTimeCount = message.getArgAsFloat(2) ;
 //            console() << posXBall1 << std::endl ;
         }
     }
@@ -209,51 +209,52 @@ float Week7_HostApp::ballPosition() {
 
 void Week7_HostApp::draw()
 {
-    if (!mTimeOut()) {
-	gl::clear( Color( 0, 0, 0 ) );
-    gl::enableAlphaBlending() ;
-    gl::pushModelMatrix() ;
-    gl::translate(getWindowCenter()) ;
+    gl::clear( Color( 0, 0, 0 ) );
+//    if (!mTimeOut()) {
+        gl::clear( Color( 0, 0, 0 ) );
+        gl::enableAlphaBlending() ;
+        gl::pushModelMatrix() ;
+        gl::translate(getWindowCenter()) ;
     
-    {
-        gl::ScopedColor ball1(1.0,0,0) ;
-        gl::drawSolidCircle(glm::vec2(posXBall1,posYBall1), 10) ;
-        gl::drawLine(glm::vec2(0,0), glm::vec2(posXBall1, posYBall1)) ;
-    }
-    
-    {
-        gl::ScopedColor ball2(0,0,1.0) ;
-        gl::drawSolidCircle(glm::vec2(posXBall2, posYBall2), 10) ;
-        gl::drawLine(glm::vec2(0,0), glm::vec2(posXBall2, posYBall2)) ;
-    }
-    
-
-    {
-        gl::ScopedColor targetColor(0, 1.0, 0) ;
-        gl::drawSolidCircle(glm::vec2(posXTarget, posYTarget), 10) ;
-    }
-    
-    gl::popModelMatrix() ;
-    
-    gl::drawString( "Red Player Score: " + std::to_string(ball1Score) , ci::vec2( 20.f, 20.f ), ci::Color( 0.5f, 0.5f, 0.5f ) );
-    gl::drawString( "Blue Player Score: " + std::to_string(ball2Score) , ci::vec2( 20.f, 35.f ), ci::Color( 0.5f, 0.5f, 0.5f ) );
-        
-    int timeLeft = 1000 - mTimeCount;
-    int timeLength = lmap(timeLeft, 0, 1000, 0, getWindowWidth());
-    gl::color(0.f, 1.f, 0.f);
-    gl::drawSolidRect(Rectf(0.f,getWindowHeight()-10,timeLength,getWindowHeight()));
-
-    }
-    
-    if (mTimeOut()) {
-        if (ball1Score > ball2Score) {
-            gl::drawString("RED WIN!", vec2(200.f,200.f), ci::Color(1.f,0.f,0.f));
-        }else if(ball2Score > ball1Score) {
-            gl::drawString("BlUE WIN!", vec2(200.f,200.f), ci::Color(0.f,0.f,1.f));
-        }else{
-            gl::drawString("DRAW", vec2(200.f,200.f), ci::Color(0.f,1.f,0.f));
+        {
+            gl::ScopedColor ball1(1.0,0,0) ;
+            gl::drawSolidCircle(glm::vec2(posXBall1,posYBall1), 10) ;
+            gl::drawLine(glm::vec2(0,0), glm::vec2(posXBall1, posYBall1)) ;
         }
-    }
+    
+        {
+            gl::ScopedColor ball2(0,0,1.0) ;
+            gl::drawSolidCircle(glm::vec2(posXBall2, posYBall2), 10) ;
+            gl::drawLine(glm::vec2(0,0), glm::vec2(posXBall2, posYBall2)) ;
+        }
+    
+
+        {
+            gl::ScopedColor targetColor(0, 1.0, 0) ;
+            gl::drawSolidCircle(glm::vec2(posXTarget, posYTarget), 10) ;
+        }
+    
+        gl::popModelMatrix() ;
+    
+        gl::drawString( "Red Player Score: " + std::to_string(ball1Score) , ci::vec2( 20.f, 20.f ), ci::Color( 0.5f, 0.5f, 0.5f ) );
+        gl::drawString( "Blue Player Score: " + std::to_string(ball2Score) , ci::vec2( 20.f, 35.f ), ci::Color( 0.5f, 0.5f, 0.5f ) );
+        
+//        int timeLeft = 1000 - mTimeCount;
+//        int timeLength = lmap(timeLeft, 0, 1000, 0, getWindowWidth());
+//        gl::color(0.f, 1.f, 0.f);
+//        gl::drawSolidRect(Rectf(0.f,getWindowHeight()-10,timeLength,getWindowHeight()));
+//
+//    }
+    
+//    if (mTimeOut()) {
+//        if (ball1Score > ball2Score) {
+//            gl::drawString("RED WIN!", vec2(200.f,200.f), ci::Color(1.f,0.f,0.f));
+//        }else if(ball2Score > ball1Score) {
+//            gl::drawString("BlUE WIN!", vec2(200.f,200.f), ci::Color(0.f,0.f,1.f));
+//        }else{
+//            gl::drawString("DRAW", vec2(200.f,200.f), ci::Color(0.f,1.f,0.f));
+//        }
+//    }
     
 }
 
@@ -264,13 +265,13 @@ void Week7_HostApp::resetTarget() {
 //    console() << posYTarget << std::endl ;
 }
 
-bool Week7_HostApp::mTimeOut(){
-    
-    if (1000-mTimeCount <= 0) {
-        return true;
-    }else{
-        return false;
-    }
-}
+//bool Week7_HostApp::mTimeOut(){
+//    
+//    if (1000-mTimeCount <= 0) {
+//        return true;
+//    }else{
+//        return false;
+//    }
+//}
 
 CINDER_APP( Week7_HostApp, RendererGl )

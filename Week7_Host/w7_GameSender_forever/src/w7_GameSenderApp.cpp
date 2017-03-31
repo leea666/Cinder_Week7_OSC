@@ -22,8 +22,8 @@ public:
     void draw() override;
     void resetTarget();
     
-    bool timeOut();
-    int timeCount;
+//    bool timeOut();
+//    int timeCount;
     
     osc::Sender sender;
     osc::Listener 	listener;
@@ -59,7 +59,7 @@ void w7_twoPlayerGame_SenderApp::setup()
     speed = 0.02f;
     radius = 200.f;
     
-    sender.setup("149.31.125.46", SenderPort, true);
+    sender.setup("149.31.125.171", SenderPort, true);
     listener.setup(5000);
     
     BlueX = 0;
@@ -69,7 +69,7 @@ void w7_twoPlayerGame_SenderApp::setup()
     targetPos = vec2(0, 0);
     pos2 = vec2(BlueX, BlueY);
     
-    timeCount = 0;
+//    timeCount = 0;
 }
 
 void w7_twoPlayerGame_SenderApp::mouseDown( MouseEvent event )
@@ -90,8 +90,8 @@ void w7_twoPlayerGame_SenderApp::update()
     message.addFloatArg(pos.x);
     message.setAddress("Red y");
     message.addFloatArg(pos.y);
-    message.setAddress("Timeout");
-    message.addFloatArg(timeCount);
+//    message.setAddress("Timeout");
+//    message.addIntArg(timeCount);
     sender.sendMessage(message);
     
     //Listener
@@ -190,13 +190,13 @@ void w7_twoPlayerGame_SenderApp::update()
     //        resetTarget();
     //    }
     
-    timeCount ++;
+//    timeCount ++;
 }
 
 void w7_twoPlayerGame_SenderApp::draw()
 {
-    if (!timeOut()) {
-        
+//    if (!timeOut()) {
+    
     gl::clear( Color( 0, 0, 0 ) );
     gl::pushMatrices();
     gl::translate(getWindowCenter());
@@ -222,32 +222,32 @@ void w7_twoPlayerGame_SenderApp::draw()
     gl::drawString("Blue Player Score: " + std::to_string(blueScore), vec2(20.f,35.f), ci::Color(0.5f,0.5f,0.5f));
     
     //Time Out
-    int timeLeft = 1000 - timeCount;
-    int timeLength = lmap(timeLeft, 0, 1000, 0, getWindowWidth());
-    gl::color(0.f, 1.f, 0.f);
-    gl::drawSolidRect(Rectf(0.f,getWindowHeight()-10,timeLength,getWindowHeight()));
+//    int timeLeft = 1000 - timeCount;
+//    int timeLength = lmap(timeLeft, 0, 1000, 0, getWindowWidth());
+//    gl::color(0.f, 1.f, 0.f);
+//    gl::drawSolidRect(Rectf(0.f,getWindowHeight()-10,timeLength,getWindowHeight()));
     
-    }
-    
-    if (timeOut()) {
-        if (redScore > blueScore) {
-            gl::drawString("RED WIN!", vec2(200.f,200.f), ci::Color(1.f,0.f,0.f));
-        }else if(blueScore > redScore) {
-            gl::drawString("BlUE WIN!", vec2(200.f,200.f), ci::Color(0.f,0.f,1.f));
-        }else{
-            gl::drawString("DRAW", vec2(200.f,200.f), ci::Color(0.f,1.f,0.f));
-        }
-    }
+//    }
+
+//    if (timeOut()) {
+//        if (redScore > blueScore) {
+//            gl::drawString("RED WIN!", vec2(200.f,200.f), ci::Color(1.f,0.f,0.f));
+//        }else if(blueScore > redScore) {
+//            gl::drawString("BlUE WIN!", vec2(200.f,200.f), ci::Color(0.f,0.f,1.f));
+//        }else{
+//            gl::drawString("DRAW", vec2(200.f,200.f), ci::Color(0.f,1.f,0.f));
+//        }
+//    }
 }
 
-bool w7_twoPlayerGame_SenderApp::timeOut(){
-    
-    if (1000-timeCount <= 0) {
-        return true;
-    }else{
-        return false;
-    }
-}
+//bool w7_twoPlayerGame_SenderApp::timeOut(){
+//    
+//    if (1000-timeCount <= 0) {
+//        return true;
+//    }else{
+//        return false;
+//    }
+//}
 
 //void w7_twoPlayerGame_SenderApp::resetTarget()
 //{
